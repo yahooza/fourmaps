@@ -3,8 +3,8 @@
 <head profile="http://gmpg.org/xfn/11">
   <meta charset="utf-8">
   <title>where is yahooza?</title>
-  <meta name="title" content="yahooza" />
-  <meta name="description" content="Home" />
+  <meta name="title" content="Fourmaps" />
+  <meta name="description" content="Map your Foursquare checkins on teh interwebs" />
   <meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +18,7 @@
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <link href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" rel="stylesheet" />
   <link href="./assets/css/fourmaps.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,11 +26,15 @@
   <div id="checkins_list"><ul></ul></div>
   <script src="http://cdn.jsdelivr.net/jquery/1.9.1/jquery-1.9.1.min.js"></script>
   <script src="http://cdn.jsdelivr.net/momentjs/2.0.0/moment.min.js"></script>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCSD72y_24wKuHIB7Rk4JCaDnrLN4CvL-8&sensor=false"></script>
+  <!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCSD72y_24wKuHIB7Rk4JCaDnrLN4CvL-8&sensor=false"></script>-->
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
   <script src="./assets/js/fourmaps.js"></script>
   <script>
     var fourmaps = new yz.FourMaps({
-      '4sq_oauth_token' : 'FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT'
+      '4sq_oauth_token' : 'FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT',
+      'excluded_venues' : [
+        '4fded9b4e4b05991756923c5'
+      ]
     });
   </script>
 </body>
