@@ -31,8 +31,22 @@
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
   <script src="https://rawgithub.com/yahooza/fourmaps/master/assets/js/fourmaps.js"></script>
   <script>
+    /**
+     * Parse query sting
+     * @return {dict}
+     */
+    function _qs() {
+      var qs = location.search.substring(1), params = {}, queries, temp,
+          queries = qs.split("&");
+      for (var i=0, l=queries.length; i<l; i++) {
+          temp = queries[i].split('=');
+          params[temp[0]] = temp[1];
+      }
+      return params;
+    }
+
     var fourmaps = new yz.FourMaps({
-      '4sq_oauth_token' : 'FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT',
+      '4sq_oauth_token' : _qs()['oauth_token'] || 'FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT',
       'latlng_start'    : [37.5506620856404, -122.31642065386514],
       'excluded_venues' : [
         '4fded9b4e4b05991756923c5'
