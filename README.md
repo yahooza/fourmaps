@@ -1,4 +1,24 @@
-foursquare-checkins-maps
-========================
+# fourmaps
+Plot your Foursquare check-ins onto a Leaflet map.
 
-Plot your Foursquare check-ins on a map.
+### Tools:
+
+* [jQuery](http://jquery.com)
+* [Leaflet](http://leafletjs.com)
+* [Foursquare API](https://developer.foursquare.com)
+* [MomentJs](http://momentjs.com)
+
+### Config
+```
+var fourmaps = new yz.FourMaps({
+  '4sq_oauth_token' : '{YOUR_FOURSQUARE_OAUTH_TOKEN}',
+  'latlng_start'    : ['{STARTING_POINT_LAT}', {STARTING_POINT_LNG}],
+  'excluded_venues' : [
+    '' // exclude these venue ids...
+  ]
+});
+```
+
+### Demo
+
+* See the [demo page](http://yahooza.github.io/fourmaps/demo.html)
