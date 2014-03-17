@@ -1,5 +1,5 @@
 body { 
-  color: #333333;
+  color: #333;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -71,40 +71,4 @@ body {
   -moz-transition-property: background; -moz-transition-duration: .3s; 
   -webkit-transition-property: background; -webkit-transition-duration: .3s; 
   transition-property: background; transition-duration: .3s;
-}
-@media all and (max-width : 480px) {
-  #checkins_list {
-    width: 100%;
-    display: block;
-    max-width: none;
-    height: auto;
-    overflow-y: hidden;
-    right: auto;
-    left: 0;
-  }
-  #checkins_list ul li {
-    background-color: rgba(0,0,0,0.5);
-    color: #fff;
-    padding: 15px;
-  }
-  #checkins_list ul li strong {
-    font-size: 200%;
-  }
-  #checkins_list ul li time {
-    font-size: 130%;
-  }
-  #checkins_list ul li:hover{
-    cursor: default;
-  }
-}
-@media all and (max-width : 200px) {
-  #checkins_list ul li {
-    padding: 5px 10px;
-  }
-  #checkins_list ul li strong {
-    font-size: 150%;
-  }
-  #checkins_list ul li time {
-    font-size: 120%;
-  }
 }
