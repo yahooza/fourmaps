@@ -15,10 +15,9 @@
   <meta name="rating" content="general" />
   <meta name="copyright" content="2013 yahooza" />
   <meta name="robots" content="index, follow" />
+  <link href="http://cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
   <link href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" media="all" rel="stylesheet" type="text/css" />
-  <style>
-  body{color:#333;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;margin:0;padding:0;overflow:hidden}.popup{font-size:105%;overflow:auto;max-height:300px}.popup strong{display:block}.popup ul{padding:0 0 0 15px;margin:10px 0}.popup ul li{font-size:90%;color:#666}.popup ul li time{font-style:italic;color:#999;font-size:80%}#checkins_list{position:fixed;top:0;right:0;width:40%;max-width:200px;height:100%;background:rgba(0,0,0,0.1);color:#555;overflow-y:scroll;overflow-x:hidden}#checkins_list:hover{background:rgba(0,0,0,0.5);color:#ccc}#checkins_list ul{list-style:none;margin:0;padding:0;font-size:80%;color:inherit}#checkins_list ul li{margin:0;padding:5px 10px 5px 5px;border-bottom:1px solid rgba(0,0,0,0.15);white-space:nowrap;color:inherit;cursor:pointer}#checkins_list ul li:hover{background-color:rgba(0,0,0,0.5);color:#fff}#checkins_list ul li strong{display:block;font-size:120%}#checkins_list:hover,#checkins_list ul li:hover{-moz-transition-property:background;-moz-transition-duration:.3s;-webkit-transition-property:background;-webkit-transition-duration:.3s;transition-property:background;transition-duration:.3s}
-  </style>
+  <link href="https://rawgithub.com/yahooza/fourmaps/master/assets/css/fourmaps.css" rel="stylesheet" />
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -26,32 +25,67 @@
 <body>
   <div id="checkins_map"  style="position: relative; width: 100%; height: 600px;"></div>
   <div id="checkins_list"><ul></ul></div>
-  <script src="http://cdn.jsdelivr.net/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+  <div id="token-prompt-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Enter your Foursquare Access Token:</h4>
+        </div>
+        <div class="modal-body">
+          <form action="" method="GET">
+            <div class="form-group">
+              <label for="token-prompt-modal-oauth-token">Access token:</label>
+              <input type="text" name="oauth_token" class="form-control" id="token-prompt-modal-oauth-token" />
+            </div>
+            <div class="form-group">
+              <small>
+                Need help? <a href="https://developer.foursquare.com/overview/auth" target="_blank">Click here to view the foursquare docs</a>
+              </small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Got my token, now let's go!</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <script src="http://cdn.jsdelivr.net/jquery/2.1.0/jquery.min.js"></script>
+  <script src="http://cdn.jsdelivr.net/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="http://cdn.jsdelivr.net/momentjs/2.0.0/moment.min.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
   <script src="https://rawgithub.com/yahooza/fourmaps/master/assets/js/fourmaps.js"></script>
   <script>
-    /**
-     * Parse query sting
-     * @return {dict}
-     */
-    function _qs() {
-      var qs = location.search.substring(1), params = {}, queries, temp,
+  $(document).ready(function(event) {
+    var params = (function() {
+      var qs = location.search.substring(1), hash = {}, queries, temp,
           queries = qs.split("&");
       for (var i=0, l=queries.length; i<l; i++) {
           temp = queries[i].split('=');
-          params[temp[0]] = temp[1];
+          hash[temp[0]] = temp[1];
       }
-      return params;
+      return hash;
+    })();
+
+    if (!(params['oauth_token'] && params['oauth_token'] !== '')) {
+      var modal = $('#token-prompt-modal');
+      modal
+        .modal('show')
+        .on('shown.bs.modal', function(event) {
+          modal.find('input[type=text]').focus();
+        })
+      return;
     }
 
     var fourmaps = new yz.FourMaps({
-      '4sq_oauth_token' : _qs()['oauth_token'] || 'FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT',
+      '4sq_oauth_token' : params['oauth_token'],
       'latlng_start'    : [37.5506620856404, -122.31642065386514],
       'excluded_venues' : [
         '4fded9b4e4b05991756923c5'
       ]
     });
+  });
   </script>
 </body>
 </html>
