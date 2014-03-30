@@ -187,16 +187,18 @@ yz.FourMaps = function(config) {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    $('#' + ELE_LIST).on('click', 'li', function(event) {
-      var target = $(event.target).closest('li');
-      if (target) {
-        var venue_id = target.attr('data-venue-id');
-        if (venue_id) {
-          event.preventDefault();
-          _popupVenue(venue_id);
+    $('#' + ELE_LIST)
+      .show()
+      .on('click', 'li', function(event) {
+        var target = $(event.target).closest('li');
+        if (target) {
+          var venue_id = target.attr('data-venue-id');
+          if (venue_id) {
+            event.preventDefault();
+            _popupVenue(venue_id);
+          }
         }
-      }
-    });
+      });
 
     // start getting ....
     _fetchCheckins(null, _handleResponse);
