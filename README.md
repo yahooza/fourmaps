@@ -21,4 +21,4 @@ var fourmaps = new yz.FourMaps({
 
 ### Demo
 
-* See the [demo page](http://yahooza.github.io/fourmaps/demo.html)
+* See the [demo page](http://yahooza.github.io/fourmaps/demo.html?oauth_token=FLVROYFL0YF1GXJK1GJHUM2HYIG4MG5IULV50KQUNZB2WBTT)
