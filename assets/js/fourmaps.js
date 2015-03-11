@@ -100,7 +100,7 @@ yz.FourMaps = function(config) {
       // if no venue, NO.
       if (!checkin.venue) {
         continue;
-      } 
+      }
 
       venue     = checkin.venue;
       location  = venue.location;
@@ -136,7 +136,7 @@ yz.FourMaps = function(config) {
 
       // create new marker
       _markers[venue.id] = {
-        title   : venue.name, 
+        title   : venue.name,
         latlng  : [location.lat, location.lng],
         times   : [t],
         instance : L.marker(
@@ -182,7 +182,11 @@ yz.FourMaps = function(config) {
    * Start the party
    */
   var init = function() {
-    map = L.map(ELE_MAP).setView([GROUND_ZERO[0], GROUND_ZERO[1]], 13);
+    map = L.map(ELE_MAP).setView([GROUND_ZERO[0], GROUND_ZERO[1]], 10);
+    map.on('locationfound', function(e){
+      map.setView(e.latlng, 13);
+    }).locate();
+
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
