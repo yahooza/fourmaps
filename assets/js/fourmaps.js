@@ -183,9 +183,14 @@ yz.FourMaps = function(config) {
    */
   var init = function() {
     map = L.map(ELE_MAP).setView([GROUND_ZERO[0], GROUND_ZERO[1]], 10);
-    map.on('locationfound', function(e){
-      map.setView(e.latlng, 13);
-    }).locate();
+    map
+      .on('locationfound', function(e){
+        map.setView(e.latlng, 13);
+      })
+      .on('locationerror', function(e){
+        // TODO: error
+      })
+      .locate();
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
