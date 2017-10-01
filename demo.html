@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head profile="http://gmpg.org/xfn/11">
-  <meta charset="utf-8">
+<head>
   <title>Fourmaps</title>
+  <meta charset="utf-8">
   <meta name="title" content="Fourmaps" />
   <meta name="description" content="Map your Foursquare checkins on teh interwebs" />
-  <meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,12 +15,12 @@
   <meta name="rating" content="general" />
   <meta name="copyright" content="2013 yahooza" />
   <meta name="robots" content="index, follow" />
-  <link href="http://cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" media="all" rel="stylesheet" type="text/css" />
-  <link href="https://rawgithub.com/yahooza/fourmaps/master/assets/css/fourmaps.css" rel="stylesheet" />
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <link href="http://cdn.jsdelivr.net/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.min.css" rel="stylesheet" />
+  <link href="./assets/css/fourmaps.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <div id="checkins_map"  style="position: relative; width: 100%; height: 600px;"></div>
@@ -28,34 +28,34 @@
   <div id="token-prompt-modal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Enter your Foursquare Access Token:</h4>
-        </div>
-        <div class="modal-body">
-          <form action="" method="GET">
+        <form action="./index.html" method="GET">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Enter your Foursquare Access Token:</h4>
+          </div>
+          <div class="modal-body">
             <div class="form-group">
               <label for="token-prompt-modal-oauth-token">Access token:</label>
-              <input type="text" name="oauth_token" class="form-control" id="token-prompt-modal-oauth-token" />
+              <input type="text" name="oauth_token" class="form-control" id="token-prompt-modal-oauth-token" required />
             </div>
             <div class="form-group">
               <small>
                 Need help? <a href="https://developer.foursquare.com/overview/auth" target="_blank">Click here to view the foursquare docs</a>
               </small>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Got my token, now let's go!</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Got my token, now let's go!</button>
+          </div>
+        </form>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   <script src="http://cdn.jsdelivr.net/jquery/2.1.0/jquery.min.js"></script>
   <script src="http://cdn.jsdelivr.net/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="http://cdn.jsdelivr.net/momentjs/2.0.0/moment.min.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-  <script src="https://rawgithub.com/yahooza/fourmaps/master/assets/js/fourmaps.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet-src.min.js"></script>
+  <script src="./assets/js/fourmaps.js"></script>
   <script>
   $(document).ready(function(event) {
     var params = (function() {
@@ -68,6 +68,7 @@
       return hash;
     })();
 
+    // Ask politely for an the user's Foursquare Oauth Token
     if (!(params['oauth_token'] && params['oauth_token'] !== '')) {
       var modal = $('#token-prompt-modal');
       modal
@@ -78,13 +79,11 @@
       return;
     }
 
-    var fourmaps = new yz.FourMaps({
-      '4sq_oauth_token' : params['oauth_token'],
-      'latlng_start'    : [37.5506620856404, -122.31642065386514],
+    var fourmaps = new yz.FourMaps($.extend({
       'excluded_venues' : [
         '4fded9b4e4b05991756923c5'
       ]
-    });
+    }, params));
   });
   </script>
 </body>
