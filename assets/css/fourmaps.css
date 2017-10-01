@@ -1,14 +1,14 @@
 body {
   color: #333;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 24px;
   margin: 0;
   padding: 0;
   overflow: hidden;
 }
 .popup {
-  font-size: 105%;
+  font-size: 125%;
   overflow: auto;
   max-height: 300px;
 }
@@ -20,19 +20,17 @@ body {
   margin:  10px 0;
 }
 .popup ul li {
-  font-size: 90%;
   color: #666;
 }
 .popup ul li time {
   font-style: italic;
   color: #999;
-  font-size: 80%;
 }
 #checkins_list {
   display: none;
   position: fixed;
   top: 0;
-  right: -100px;
+  right: -25px;
   width: 40%;
   max-width: 200px;
   height: 100%;
@@ -40,6 +38,7 @@ body {
   color: #555;
   overflow-y: scroll;
   overflow-x: hidden;
+  z-index: 500;
 }
 #checkins_list:hover {
   right: 0;
