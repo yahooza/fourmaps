@@ -5,22 +5,35 @@ yz.FourMaps = function(config) {
     throw 'Required options / config to continue.';
   }
 
-  if (!config['4sq_oauth_token']) {
+  if (!config['oauth_token']) {
     throw 'Foursquare oauth token required.'
   }
 
-  var _config = $.extend(config, {});
+  var _config = $.extend({
+    'limit'         : 200,
+    'map_latlng'    : '37.57787402417704,-122.34639102139646', // Burlingame Farmer's Market
+    'map_level'     : 10
+  }, config);
+
+  _config['map_latlng'] = _config['map_latlng'].split(',');
+
+  if (_config['after_timestamp']) {
+    _config['after_timestamp'] = parseInt(_config['after_timestamp'], 10) + 1; // not inclusive
+  }
+
+  // NOTE: Just throw it away. Don't let it sit around to be used by the next guy.
+  config = null;
 
   var ELE_MAP     = 'checkins_map',
       ELE_LIST    = 'checkins_list',
       DATE_FORMAT = 'dddd, MMMM Do YYYY, h:mm:ss a',
-      GROUND_ZERO =  _config['latlng_start'] || [37.57787402417704, -122.34639102139646], // Burlingame Farmer's Market
       FOURSQUARE_CHECKINS_ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins?jsoncallback=1?';
 
   var map,
       popup           = L.popup({
         'minWidth' : 375,
-        'maxWidth' : 500
+        'maxWidth' : 500,
+        'offset'   : [0, -20]
       }),
       _markers        = {},
       _markers_count  = 0;
@@ -44,10 +57,15 @@ yz.FourMaps = function(config) {
   var _fetchCheckins = function(before_timestamp, callback) {
     var params = {
       'v'               : '20130101',
-      'limit'           : 250,
-      'oauth_token'     : _config['4sq_oauth_token'],
-      'format'          : "json"
+      'limit'           : _config['limit'],
+      'oauth_token'     : _config['oauth_token'],
+      'format'          : 'json'
     };
+    // Only fetch Checkins after this timestamp
+    if (_config['after_timestamp']) {
+      params['afterTimestamp'] = _config['after_timestamp'];
+    }
+    // Start the Checkin query before this timestamp
     if (before_timestamp) {
       params['beforeTimestamp'] = before_timestamp;
     }
@@ -82,7 +100,6 @@ yz.FourMaps = function(config) {
    * @param {object literal}
    */
   var _processCheckins = function(checkins) {
-
     if (!checkins) {
       return;
     }
@@ -94,7 +111,6 @@ yz.FourMaps = function(config) {
         html_list = [];
 
     for (var i=0, len=checkins.length; i<len; i++) {
-
       checkin   = checkins[i];
 
       // if no venue, NO.
@@ -182,15 +198,20 @@ yz.FourMaps = function(config) {
    * Start the party
    */
   var init = function() {
-    map = L.map(ELE_MAP).setView([GROUND_ZERO[0], GROUND_ZERO[1]], 10);
+    map = L.map(ELE_MAP).setView(
+      [
+        _config['map_latlng'][0],
+        _config['map_latlng'][1]
+      ],
+      _config['map_level']
+    );
     map
       .on('locationfound', function(e){
-        map.setView(e.latlng, 13);
+        map.setView(e.latlng);
       })
       .on('locationerror', function(e){
         // TODO: error
-      })
-      .locate();
+      });
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -210,7 +231,7 @@ yz.FourMaps = function(config) {
       });
 
     // start getting ....
-    _fetchCheckins(null, _handleResponse);
+    _fetchCheckins(_config['before_timestamp'] || null, _handleResponse);
   }
 
   init();
