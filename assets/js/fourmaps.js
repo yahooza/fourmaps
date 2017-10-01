@@ -15,7 +15,7 @@ yz.FourMaps = function(config) {
     'map_level'     : 10
   }, config);
 
-  _config['map_latlng'] = _config['map_latlng'].split(',');
+  _config['map_latlng'] = decodeURIComponent(_config['map_latlng']).split(',');
 
   if (_config['after_timestamp']) {
     _config['after_timestamp'] = parseInt(_config['after_timestamp'], 10) + 1; // not inclusive
